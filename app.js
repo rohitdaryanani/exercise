@@ -1,5 +1,4 @@
-const Foo = { template: '<div>foo</div>' }
-const Bar = { template: '<div>bar</div>' }
+const Home = { template: '<div>Todo App Started.</div>' }
 
 const mycomponent = Vue.component('my-component', {
     template: '<div>A custom component!</div>'
@@ -7,8 +6,7 @@ const mycomponent = Vue.component('my-component', {
 
 
 const routes = [
-  { path: '/foo', component: Foo },
-  { path: '/bar', component: Bar },
+  { path: '/home', component: Home },
   { path: '/my', component: mycomponent }
 ]
 
