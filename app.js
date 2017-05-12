@@ -1,26 +1,32 @@
 const Home = { template: '<div>Todo App Started.</div>' }
 
 const todo = Vue.component('my-component', {
+    props: ['todos'],
     data() {
         return {
             todoItem: '',
+            mutableTodos: this.todos
         }
     },
-    props: ['todos'],
     methods: {
         addTodo(){
             if(this.todoItem === '') return;
-            this.todos.push(this.todoItem);
+            this.mutableTodos.push(this.todoItem);
             this.todoItem = '';
         },
         removeTodo(index) {
-            this.todos.splice(index, 1);
+            // both methods works filter works with data from props but throws a console warning
+            // of avoid mutating props directly so after declaring local todos went with splice
+            // which is much simpler.
+            // this.mutableTodos = this.mutableTodos.filter(t => t !== this.mutableTodos[index])
+
+            this.mutableTodos.splice(index,1);
         }
     },
     template:
         `<div>
             <input type="text" v-model="todoItem" v-on:keyup.enter="addTodo" />
-            <ul v-for="(todo, index) in todos">
+            <ul v-for="(todo, index) in mutableTodos">
                 <li>{{todo}} <button v-on:click="removeTodo(index)">x</button></li>
             </ul>
         </div>`
