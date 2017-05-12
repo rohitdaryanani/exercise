@@ -38,7 +38,7 @@ const Home = { template: '<div>Todo App Started.</div>' }
 
 // declare routes and pass initial data per category
 const routes = [
-  { path: '/home', component: Home },
+  { path: '/', component: Home },
   { path: '/family', component: todo, props:{ todos: ['wash clothes','buy milk','sweep floor'] } },
   { path: '/school', component: todo, props:{ todos: ['do homework','read books'] } },
   { path: '/exercise', component: todo, props:{ todos: ['lift weights','drink protein shake'] } }
