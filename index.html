@@ -10,8 +10,11 @@
 <body>
     <div id="app">
         <input type="text" v-model="todo" v-on:keyup.enter="addTodo">
-        <ul v-for="todo in todos">
-            <li>{{todo}}</li>
+        <ul v-for="(todo, index) in todos">
+            <li>
+                {{todo}}
+                <button v-on:click="deleteTodo(index)">x</button>
+            </li>
         </ul>
     </div>
 

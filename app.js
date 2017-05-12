@@ -9,6 +9,9 @@ new Vue({
             if(this.todo === '') return;
             this.todos.push(this.todo);
             this.todo = '';
+        },
+        deleteTodo: function(index){
+            this.todos.splice(index, 1);
         }
     }
 })
