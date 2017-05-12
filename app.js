@@ -1,7 +1,12 @@
 const Home = { template: '<div>Todo App Started.</div>' }
 
 const mycomponent = Vue.component('my-component', {
-    template: '<div>A custom component!</div>'
+    data() {
+        return {
+            todos: ['wash clothes', 'buy milk', 'sweep floor']
+        }
+    },
+    template: '<div><ul v-for="todo in todos"><li>{{todo}}</li></ul></div>'
 })
 
 
