@@ -1,16 +1,17 @@
-const Home = { template: '<div>Todo App Started.</div>' }
-
 const todo = Vue.component('my-component', {
     props: ['todos'],
     data() {
         return {
             todoItem: '',
+            // need this to avoid vues 2.3.3 mutating prop warning/error
             mutableTodos: this.todos
         }
     },
     methods: {
         addTodo(){
-            if(this.todoItem === '') return;
+            // return if submiting empty todo or with blank space
+            // add todo to todos and clear the input
+            if(this.todoItem.trim() === '') return;
             this.mutableTodos.push(this.todoItem);
             this.todoItem = '';
         },
@@ -32,7 +33,10 @@ const todo = Vue.component('my-component', {
         </div>`
 })
 
+// data for home route
+const Home = { template: '<div>Todo App Started.</div>' }
 
+// declare routes and pass initial data per category
 const routes = [
   { path: '/home', component: Home },
   { path: '/family', component: todo, props:{ todos: ['wash clothes','buy milk','sweep floor'] } },
