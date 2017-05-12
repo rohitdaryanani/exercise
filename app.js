@@ -1,17 +1,23 @@
-new Vue({
-    el: '#app',
-    data: {
-        todo: '',
-        todos: ['wash clothes', 'buy milk', 'sweep floor']
-    },
-    methods: {
-        addTodo: function() {
-            if(this.todo === '') return;
-            this.todos.push(this.todo);
-            this.todo = '';
-        },
-        deleteTodo: function(index){
-            this.todos.splice(index, 1);
-        }
-    }
+const Foo = { template: '<div>foo</div>' }
+const Bar = { template: '<div>bar</div>' }
+
+const mycomponent = Vue.component('my-component', {
+    template: '<div>A custom component!</div>'
 })
+
+
+const routes = [
+  { path: '/foo', component: Foo },
+  { path: '/bar', component: Bar },
+  { path: '/my', component: mycomponent }
+]
+
+const router = new VueRouter({
+  routes
+})
+
+
+const app = new Vue({
+  router
+}).$mount('#app')
+
