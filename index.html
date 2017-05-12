@@ -9,7 +9,10 @@
 </head>
 <body>
     <div id="app">
-        <span>{{text}}</span>
+        <input type="text" v-model="todo" v-on:keyup.enter="addTodo">
+        <ul v-for="todo in todos">
+            <li>{{todo}}</li>
+        </ul>
     </div>
 
 <script src="app.js"></script>
