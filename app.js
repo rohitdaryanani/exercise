@@ -1,4 +1,4 @@
-const todo = Vue.component('my-component', {
+const todo = Vue.component('todo-component', {
     props: ['todos'],
     data() {
         return {
@@ -52,4 +52,3 @@ const router = new VueRouter({
 const app = new Vue({
   router
 }).$mount('#app')
-
