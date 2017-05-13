@@ -1,5 +1,10 @@
 const todo = Vue.component('todo-component', {
-    props: ['todos'],
+    props: {
+        todos: {
+            type: Array,
+            required: true
+        }
+    },
     data() {
         return {
             todoItem: '',
@@ -52,3 +57,33 @@ const router = new VueRouter({
 const app = new Vue({
   router
 }).$mount('#app')
+
+/* Questions
+1. List out the Vue components required, and their specification.
+    todo-component
+        - Props: todos[array]
+        - Events emitted: addTodo, removeTodo
+        - State: todoItem, mutableTodos
+
+2. Suggest the format of the JSON object that specifies the application state in each design
+
+    intial state
+    {
+        todoItem: '',
+        mutableTodos :[]
+    }
+
+    routechange/project selected state //selected family
+    {
+        todoItem: '',
+        mutableTodos: [wash clothes','buy milk','sweep floor]
+    }
+
+    adding todo
+    {
+        todoItem: 'do chores',
+        mutableTodos: [wash clothes','buy milk','sweep floor]
+    }
+
+
+*/
