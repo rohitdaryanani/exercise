@@ -12,18 +12,30 @@
 <script>
 export default {
   name: 'Todo',
-  props: ['todos'],
+  props: {
+    todos: {
+      type: Array,
+      required: true
+    }
+  },
   data () {
     return {
       todoItem: ''
     }
   },
   methods: {
+    /**
+     * return if submiting empty todo item or with blank space
+     * add todo to todos and clear the input
+    */
     addTodo () {
       if (this.todoItem.trim() === '') return
       this.todos.push(this.todoItem)
       this.todoItem = ''
     },
+    /**
+     * remove todo item from todos using the index
+    */
     removeTodo (index) {
       this.todos.splice(index, 1)
     }
