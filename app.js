@@ -1,4 +1,18 @@
-const todo = Vue.component('todo-component', {
+// routes component
+const categoryLinks = Vue.component('category-links', {
+    props: {
+        routes: {
+            type: Array,
+            required: true
+        }
+    },
+    template:`<span>
+            <router-link class="todo-link" v-for="route in routes" v-bind:to="route">{{route}}</router-link>
+        </span>`
+})
+
+// todo component
+const todo = Vue.component('todo', {
     props: {
         todos: {
             type: Array,
@@ -8,8 +22,6 @@ const todo = Vue.component('todo-component', {
     data() {
         return {
             todoItem: '',
-            // need this to avoid vues 2.3.3 mutating prop warning/error
-            mutableTodos: this.todos
         }
     },
     methods: {
@@ -17,26 +29,24 @@ const todo = Vue.component('todo-component', {
             // return if submiting empty todo or with blank space
             // add todo to todos and clear the input
             if(this.todoItem.trim() === '') return;
-            this.mutableTodos.push(this.todoItem);
+            this.todos.push(this.todoItem);
             this.todoItem = '';
         },
         removeTodo(index) {
-            // both methods works filter works with data from props but throws a console warning
-            // of avoid mutating props directly so after declaring local todos went with splice
-            // which is much simpler.
-            // this.mutableTodos = this.mutableTodos.filter(t => t !== this.mutableTodos[index])
+            // returns a new todo array
+            this.todos = this.todos.filter(t => t !== this.todos[index])
 
-            this.mutableTodos.splice(index,1);
         }
     },
     template:
         `<div>
             <input type="text" v-model="todoItem" v-on:keyup.enter="addTodo" />
-            <ul v-for="(todo, index) in mutableTodos">
+            <ul v-for="(todo, index) in todos">
                 <li>{{todo}} <button v-on:click="removeTodo(index)">x</button></li>
             </ul>
         </div>`
 })
+
 
 // data for home route
 const Home = { template: '<div>Todo App Started.</div>' }
@@ -60,29 +70,35 @@ const app = new Vue({
 
 /* Questions
 1. List out the Vue components required, and their specification.
-    todo-component
+    todo
         - Props: todos[array]
         - Events emitted: addTodo, removeTodo
-        - State: todoItem, mutableTodos
+        - State: todoItem
+    
+    category-links
+        - props: routes[array]
+
+    app
+        - State: todos
 
 2. Suggest the format of the JSON object that specifies the application state in each design
 
     intial state
     {
         todoItem: '',
-        mutableTodos :[]
+        todos :[]
     }
 
     routechange/project selected state //selected family
     {
         todoItem: '',
-        mutableTodos: [wash clothes','buy milk','sweep floor]
+        todos: [wash clothes','buy milk','sweep floor]
     }
 
     adding todo
     {
         todoItem: 'do chores',
-        mutableTodos: [wash clothes','buy milk','sweep floor]
+        todos: [wash clothes','buy milk','sweep floor]
     }
 
 
