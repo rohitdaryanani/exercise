@@ -13,3 +13,10 @@ export default {
   name: 'app'
 }
 </script>
+
+<style scope>
+  a:not(:first-of-type) {
+    border-left: 1px solid #000000;
+    padding: 0 0 0 5px;
+  }
+</style>
