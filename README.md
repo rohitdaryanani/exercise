@@ -1,5 +1,7 @@
 # Front­end developer exercise
 
+check the live version [here](http://rohit-exercise.surge.sh/#/)
+
 ### Tech stack
 
 - **Vue** -  frontend/view framework
