@@ -1,47 +1,48 @@
-// routes component
-const categoryLinks = Vue.component('category-links', {
-    props: {
-        routes: {
-            type: Array,
-            required: true
-        }
-    },
-    template:`<span>
-            <router-link class="todo-link" v-for="route in routes" v-bind:to="route">{{route}}</router-link>
-        </span>`
-})
-
 // todo component
-const todo = Vue.component('todo', {
+const Todo = Vue.component('todo', {
     props: {
-        todos: {
-            type: Array,
-            required: true
+        project: {
+            type: String
         }
     },
     data() {
         return {
             todoItem: '',
+            categories: {
+                family: ['wash clothes','buy milk','sweep floor'],
+                school: ['do homework','read books'],
+                exercise: ['lift weights','drink protein shake']
+            },
+        }
+    },
+    computed: {
+        selectedProject() {
+            return this.categories[this.project];
         }
     },
     methods: {
         addTodo(){
-            // return if submiting empty todo or with blank space
-            // add todo to todos and clear the input
-            if(this.todoItem.trim() === '') return;
-            this.todos.push(this.todoItem);
+            /**
+             * return if submiting empty todo item or with blank space
+             * check if selected project exist if then just return
+             * add todo to todos and clear the input
+            */
+            if(this.todoItem.trim() === '' || !this.selectedProject) return;
+
+            this.selectedProject.push(this.todoItem);
             this.todoItem = '';
         },
         removeTodo(index) {
-            // returns a new todo array
-            this.todos = this.todos.filter(t => t !== this.todos[index])
-
+            /**
+             * remove todo item from todos using the index
+            */
+            this.selectedProject.splice(index, 1)
         }
     },
     template:
         `<div>
             <input type="text" v-model="todoItem" v-on:keyup.enter="addTodo" />
-            <ul v-for="(todo, index) in todos">
+            <ul v-for="(todo, index) in selectedProject">
                 <li>{{todo}} <button v-on:click="removeTodo(index)">x</button></li>
             </ul>
         </div>`
@@ -49,14 +50,19 @@ const todo = Vue.component('todo', {
 
 
 // data for home route
-const Home = { template: '<div>Todo App Started.</div>' }
+const Home = { 
+    template: '<div>{{message}}</div>',
+    data() { 
+        return {
+            message : 'Todo App Started.'
+        }
+    }
+}
 
 // declare routes and pass initial data per category
 const routes = [
   { path: '/', component: Home },
-  { path: '/family', component: todo, props:{ todos: ['wash clothes','buy milk','sweep floor'] } },
-  { path: '/school', component: todo, props:{ todos: ['do homework','read books'] } },
-  { path: '/exercise', component: todo, props:{ todos: ['lift weights','drink protein shake'] } }
+  { path: '/:project', component: Todo, props: true }
 ]
 
 const router = new VueRouter({
@@ -70,36 +76,36 @@ const app = new Vue({
 
 /* Questions
 1. List out the Vue components required, and their specification.
-    todo
-        - Props: todos[array]
+    Todo
+        - Props: project[String]
         - Events emitted: addTodo, removeTodo
-        - State: todoItem
+        - State: todoItem[String], categories[Object], 
+        - computed: selectedProject[Array]
+    Home
+        - State: message[String]
     
-    category-links
-        - props: routes[array]
-
-    app
-        - State: todos
 
 2. Suggest the format of the JSON object that specifies the application state in each design
 
     intial state
     {
         todoItem: '',
-        todos :[]
+        categories: {
+            family: ['wash clothes','buy milk','sweep floor'],
+            school: ['do homework','read books'],
+            exercise: ['lift weights','drink protein shake']
+        },
+        selectedProject[: []
     }
 
     routechange/project selected state //selected family
     {
         todoItem: '',
-        todos: [wash clothes','buy milk','sweep floor]
+        categories: {
+            family: ['wash clothes','buy milk','sweep floor'],
+            school: ['do homework','read books'],
+            exercise: ['lift weights','drink protein shake']
+        },
+        selectedProject: ['wash clothes','buy milk','sweep floor']
     }
-
-    adding todo
-    {
-        todoItem: 'do chores',
-        todos: [wash clothes','buy milk','sweep floor]
-    }
-
-
 */
