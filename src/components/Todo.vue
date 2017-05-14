@@ -1,11 +1,8 @@
 <template>
   <div>
-      <input type="text" v-model="todoItem" v-on:keyup.enter="addTodo" />
-      <ul v-for="(todo, index) in todos">
-          <li>
-              {{todo}}
-              <button v-on:click="removeTodo(index)">x</button>
-        </li>
+    <input type="text" v-model="todoItem" v-on:keyup.enter="addTodo" />
+      <ul v-for="(todo, index) in selectedProject">
+        <li>{{todo}} <button v-on:click="removeTodo(index)">x</button></li>
       </ul>
   </div>
 </template>
@@ -13,31 +10,42 @@
 export default {
   name: 'Todo',
   props: {
-    todos: {
-      type: Array,
-      required: true
+    project: {
+      type: String
     }
   },
   data () {
     return {
-      todoItem: ''
+      todoItem: '',
+      categories: {
+        family: ['wash clothes', 'buy milk', 'sweep floor'],
+        school: ['do homework', 'read books'],
+        exercise: ['lift weights', 'drink protein shake']
+      }
+    }
+  },
+  computed: {
+    selectedProject () {
+      return this.categories[this.project]
     }
   },
   methods: {
-    /**
-     * return if submiting empty todo item or with blank space
-     * add todo to todos and clear the input
-    */
     addTodo () {
-      if (this.todoItem.trim() === '') return
-      this.todos.push(this.todoItem)
+      /**
+        * return if submiting empty todo item or with blank space
+        * check if selected project exist if then just return
+        * add todo to todos and clear the input
+      */
+      if (this.todoItem.trim() === '' || !this.selectedProject) return
+
+      this.selectedProject.push(this.todoItem)
       this.todoItem = ''
     },
-    /**
-     * remove todo item from todos using the index
-    */
     removeTodo (index) {
-      this.todos.splice(index, 1)
+      /**
+        * remove todo item from todos using the index
+      */
+      this.selectedProject.splice(index, 1)
     }
   }
 }
