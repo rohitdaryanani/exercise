@@ -1,19 +1,19 @@
 <template>
   <div>
-    <home :message="msg"></home>
+      <todo :todos="todos"></todo>
   </div>
 </template>
 <script>
-import Home from '@/components/Home'
+import Todo from '@/components/Todo'
 
 export default {
   name: 'school',
   components: {
-    'home': Home
+    'todo': Todo
   },
   data () {
     return {
-      msg: 'school yo.'
+      todos: ['do homework', 'read books']
     }
   }
 }
